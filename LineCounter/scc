@@ -1,0 +1,31 @@
+#!/bin/bash
+
+function parseDir ()
+{
+	local SCC_SCRIPT=$1
+	SCC_SCRIPT_DIR=${SCC_SCRIPT%scc}
+	if [ -z $SCC_SCRIPT_DIR ]
+		then SCC_SCRIPT_DIR=.
+	fi
+}
+
+if [ -f $PWD/scc ] && [ -x $PWD/scc ]
+then
+	if [ -h $PWD/SCC ]
+		then
+			SCC_SCRIPT=`readlink $PWD/scc`
+			parseDir $SCC_SCRIPT
+		else
+			SCC_SCRIPT_DIR=$PWD
+	fi
+else
+	SCC_SCRIPT=$0
+	parseDir $SCC_SCRIPT
+fi
+
+for i in `ls $SCC_SCRIPT_DIR/lib/*`
+do
+	CP=$CP:$i
+done;
+
+java -classpath $CP nrs.scc.SourceCodeCounter $1 &

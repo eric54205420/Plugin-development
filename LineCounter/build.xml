@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="compile" name="SourceCodeCounter">
+	<property name="debug" value="true"/>
+	<property name="ver" value="1.0"/>
+	<property name="prefix" value="SourceCodeCounter"/>
+	<property name="classname" value="nrs.scc.SourceCodeCounter"/>
+	<property name="bld" value="build/classes"/>
+
+	<path id="scc.path">
+		<fileset dir="lib" includes="*.jar"/>
+		<pathelement location="./${bld}"/>
+	</path>
+
+	<path id="run.classpath">
+		<pathelement location="${bld}"/>
+		<pathelement location="src"/>
+		<pathelement location="."/>
+		<fileset dir="lib" includes="*.jar"/>
+	</path>
+
+	<target name="clean" description="Clear the compiled classes">
+		<delete dir="${bld}/nrs"/>
+		<echo message="Removed build files"/>
+	</target>
+
+	<target name="compile" description="Compile the source">
+		<mkdir dir="${bld}"/>
+		<javac classpathref="scc.path" debug="${debug}" destdir="${bld}" srcdir="src" source="1.6" target="1.6" encoding="UTF-8">
+			<compilerarg value="-Xlint:unchecked"/>
+	    <!-- compilerarg value="-Xlint:deprecation"/ -->
+		</javac>
+		
+		<!-- XML, png and property files don't get compiled so copy them to the classes directory -->
+		<mkdir dir="${bld}/nrs/scc/resources"/>
+		<mkdir dir="${bld}/nrs/scc/tab1/resources"/>
+		<mkdir dir="${bld}/nrs/scc/tab2/resources"/>
+		<mkdir dir="${bld}/nrs/scc/tab3/resources"/>
+		
+		<copy todir="${bld}/nrs/scc/resources">
+			<fileset dir="src/nrs/scc/resources"/>
+		</copy>
+		<copy todir="${bld}/nrs/scc/tab1/resources">
+			<fileset dir="src/nrs/scc/tab1/resources"/>
+		</copy>
+		<copy file="src/nrs/scc/tab2/filetypes.xml" todir="${bld}/nrs/scc/tab2"/>
+		<copy todir="${bld}/nrs/scc/tab2/resources">
+			<fileset dir="src/nrs/scc/tab2/resources"/>
+		</copy>
+		<copy todir="${bld}/nrs/scc/tab3/resources">
+			<fileset dir="src/nrs/scc/tab3/resources"/>
+		</copy>
+		<echo message="Finished compilation"/>
+	</target>
+
+	<target depends="clean,compile" name="cleancompile" description="Clear existing classes before building"/>
+
+	<target name="jar" depends="compile" description="Creates a JAR">
+		<delete file="lib/SourceCodeCounter.jar"/>
+		<jar destfile="lib/SourceCodeCounter.jar">
+			<fileset dir="${bld}" excludes="**/*Test.class"/>
+			<manifest>
+				<attribute name="Main-Class" value="${classname}"/>
+				<attribute name="Class-Path" value="appframework-1.0.3.jar, jdom.jar, swing-worker-1.1.jar"/>
+			</manifest>
+		</jar>
+		<echo message="Finished lib/SourceCodeCounder.jar"/>
+	</target>
+
+	<target name="zip" description="Make a zip for distribution">
+		<mkdir dir="dist"/>
+		<delete file="dist/scc${ver}.zip"/>
+		<zip zipfile="dist/scc${ver}.zip">
+			<zipfileset dir="." prefix="${prefix}">
+				<include name="README.txt"/>
+			</zipfileset>
+			<zipfileset dir="." prefix="${prefix}" filemode="755">
+				<include name="scc"/>
+				<include name="scc.bat"/>
+				<include name="lib/*.jar"/>
+			</zipfileset>
+			<zipfileset dir="src/nrs/scc/resources" includes="icon.png" prefix="${prefix}"/>
+		</zip>
+		<echo message="Finished dist/scc${ver}.zip"/>
+	</target>
+
+	<target name="zipsrc" depends="zip,backup.nb.build" description="Make a zip including source">
+		<delete file="dist/scc${ver}-src.zip"/>
+		<zip zipfile="dist/scc${ver}-src.zip">
+			<zipfileset src="dist/scc${ver}.zip"/>
+			<zipfileset dir="." includes="build.xml" prefix="${prefix}"/>
+			<zipfileset dir="src" excludes="**/*~" prefix="${prefix}/src"/>
+		</zip>
+		<antcall target="restore.nb.build"/>
+		<echo message="Finished dist/jcards${ver}-src.zip"/>
+	</target>
+
+	<target name="backup.nb.build" depends="backup.nb.check" if="nb.build.exists">
+		<copy file="build.xml" tofile="build-nb.xml" verbose="true"/>
+		<copy file="build-nonb.xml" tofile="build.xml" overwrite="yes" verbose="true"/>
+	</target>
+
+	<target name="backup.nb.check">
+		<condition property="nb.build.exists">
+			<available file="build-nonb.xml"/>
+		</condition>
+	</target>
+
+	<target name="restore.nb.build" if="nb.build.exists">
+		<move file="build-nb.xml" tofile="build.xml" verbose="true"/>
+	</target>
+
+	<target name="run" depends="jar" description="Runs Source Code Counter">
+		<java classname="${classname}" classpathref="run.classpath" fork="true">
+			<jvmarg value="-ea"/>
+		</java>
+	</target>
+
+	<target name="debug" depends="compile" description="Debug SCC within NetBeans">
+		<fail unless="netbeans.home">This target can only run inside the NetBeans IDE.</fail>
+		<nbjpdastart name="JCards" addressproperty="jpda.address" transport="dt_socket">
+			<classpath path="run.classpath"/>
+			<sourcepath path="src"/>
+		</nbjpdastart>
+		<java fork="true" classname="${classname}">
+			<jvmarg value="-Xdebug"/>
+			<jvmarg value="-Xnoagent"/>
+			<jvmarg value="-Djava.compiler=none"/>
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+			<classpath refid="run.classpath"/>
+		</java>
+	</target>
+</project>

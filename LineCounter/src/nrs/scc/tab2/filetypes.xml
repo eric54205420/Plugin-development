@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Regular Expression Options
+	ci = case insensitive
+	uc = Unicode case insensitive in conjunction with ci
+	ul = Unix lines - only match \n
+	literal = literal text
+	dotall = dot matches everything including \n
+	ce = canonical equivalence
+	comments = embedded comments
+
+	multiline is enabled by default
+-->
+<FileTypes xmlns="http://www.nsydenham.net/java/SCC/filetypes/1">
+	<CommonItems>
+		<CountItem id="comment.single" name="Single line comment - //">^[ \t]*//</CountItem>
+		<CountItem id="comment.multi" name="Multi-line comment - /* */" dotall="Y">^[ \t]*/\*.+?\*/</CountItem>
+		<CountItem id="comment.hash" name="Comment - #">^(#$|#[^!])</CountItem>
+		<CountItem id="comment.bracket" name="Bracket comment - { }" dotall="Y">^[ \t]*\{.*?\}</CountItem>
+		<CountItem id="comment.paren" name="Parenthesis comment - (* *)" dotall="Y">^[ \t]*\(\*.+?\*\)</CountItem>
+		<CountItem id="comment.percent" name="Comment - %">^[ \t]*%</CountItem>
+		<CountItem id="xml.comment" name="Comment - &lt;!-- --&gt;" dotall="Y">^[ \t]*&lt;!--.+?--&gt;</CountItem>
+		<CountItem id="xml.prolog" name="Prolog - &lt;?xml">^&lt;\?xml</CountItem>
+		<CountItem id="pre.dir" name="Preprocessor directives">^#[A-Za-z]* </CountItem>
+	</CommonItems>
+	<FileType type="Ada">
+		<FilePatterns>
+			<pattern>ada</pattern>
+			<pattern>ads</pattern>
+			<pattern>adb</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment - --">^--</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="ALGOL">
+		<FilePatterns>
+			<pattern>a68</pattern>
+			<pattern>al</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment - comment">^comment .*?;</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="ASP">
+		<FilePatterns>
+			<pattern>asp</pattern>
+			<pattern>aspx</pattern>
+			<pattern>asax</pattern>
+			<pattern>ascx</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Single comment - '">^'</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Assembly">
+		<FilePatterns>
+			<pattern>asm</pattern>
+			<pattern>s</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment - ;">^;</CountItem>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Awk">
+		<FilePatterns>
+			<pattern>awk</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.hash"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Bean Shell">
+		<FilePatterns>
+			<pattern>bsh</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="C/C++/C#">
+		<FilePatterns>
+			<pattern>c</pattern>
+			<pattern>cc</pattern>
+			<pattern>cpp</pattern>
+			<pattern>cxx</pattern>
+			<pattern>cs</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="comment.multi"/>
+			<CountItem ref="pre.dir"/>
+		</CountItems>
+	</FileType>
+	<FileType type="C/C++ header">
+		<FilePatterns>
+			<pattern>h</pattern>
+			<pattern>hpp</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.multi"/>
+			<CountItem ref="pre.dir"/>
+		</CountItems>
+	</FileType>
+	<FileType type="C/C++ Loader Script">
+	    <FilePatterns>
+		<pattern>ld</pattern>
+		<pattern>lds</pattern>
+	    </FilePatterns>
+	    <CountItems>
+		   <CountItem ref="comment.multi"/>
+	    </CountItems>
+	</FileType>
+	<FileType type="C/C++ Makefile">
+		<FilePatterns>
+			<pattern>makefile</pattern>
+			<pattern>mk</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.hash"/>
+			<CountItem name="Spaces at start of line">^ +</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="COBOL">
+		<FilePatterns>
+			<pattern>cob</pattern>
+			<pattern>cbl</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment">^\d{6}\*</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="CSS">
+		<FilePatterns>
+			<pattern>css</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="CSV">
+		<FilePatterns>
+			<pattern>csv</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment">^#</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Delphi / Pascal">
+		<FilePatterns>
+			<pattern>dpr</pattern>
+			<pattern>p</pattern>
+			<pattern>pas</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single">^//</CountItem>
+			<CountItem ref="comment.bracket"/>
+			<CountItem ref="comment.paren"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Drools">
+		<FilePatterns>
+			<pattern>drl</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="comment.multi"/>
+			<CountItem name="Rule">rule[ \t]+</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Erlang">
+		<FilePatterns>
+			<pattern>erl</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.percent"/>
+		</CountItems>
+	</FileType>
+	<FileType type="F#">
+		<FilePatterns>
+			<pattern>f#</pattern>
+			<pattern>fs</pattern>
+			<pattern>fsharp</pattern>
+			<pattern>fsi</pattern>
+			<pattern>fsx</pattern>
+			<pattern>ml</pattern>
+			<pattern>mli</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="comment.paren"/>
+			<CountItem name="Doc comment">^[ \t]*///</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Flex">
+		<FilePatterns>
+			<pattern>l</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Forth">
+		<FilePatterns>
+			<pattern>fi</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Backslash comment - \">^[ \t]*\\</CountItem>
+			<CountItem name="Parenthesis comment - ( )">^\[ \t]*\(.*?\)</CountItem>
+		</CountItems>
+	</FileType>	
+	<FileType type="Fortran">
+		<FilePatterns>
+			<pattern>f</pattern>
+			<pattern>f77</pattern>
+			<pattern>f90</pattern>
+			<pattern>f95</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment">^C</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Groovy">
+		<FilePatterns>
+			<pattern>groovy</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Haskell">
+		<FilePatterns>
+			<pattern>hs</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Single comment - --">^--</CountItem>
+			<CountItem name="Bracket comment - {- -}">^\{-.*-\}</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Haskell (Literate)">
+		<FilePatterns>
+			<pattern>lhs</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment">^[^&gt;]</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="HTML">
+		<FilePatterns>
+			<pattern>htm</pattern>
+			<pattern>html</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="xml.comment"/>
+			<CountItem name="Script" dotall="Y">&lt;script.*?&lt;/script&gt;</CountItem>
+			<CountItem name="Style" dotall="Y">&lt;style.*?&lt;/style&gt;</CountItem>
+			<CountItem name="Missing img alt attribute" ci="Y" uc="Y">&lt;img\s+((width|height|border|class|id|src|align|ismap|usemap|hspace|vspace|lang|dir|on[a-z]+)="[^"]*"\s*)+/?&gt;</CountItem>
+			<CountItem name="Missing img width attribute" ci="Y" uc="Y">&lt;img\s+((height|border|class|id|alt|src|align|ismap|usemap|hspace|vspace|lang|dir|on[a-z]+)="[^"]*"\s*)+/?&gt;</CountItem>
+			<CountItem name="Missing img height attribute" ci="Y" uc="Y">&lt;img\s+((width|border|class|id|alt|src|align|ismap|usemap|hspace|vspace|lang|dir|on[a-z]+)="[^"]*"\s*)+/?&gt;</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="HTML (Server Side)">
+		<FilePatterns>
+			<pattern>shtm</pattern>
+			<pattern>shtml</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Include">&lt;!--#\w+</CountItem>
+			<CountItem ref="xml.comment"/>
+		</CountItems>
+	</FileType>
+	<FileType type="JAR Manifest">
+		<FilePatterns>
+			<pattern>mf</pattern>
+		</FilePatterns>
+	</FileType>
+	<FileType type="Java">
+		<FilePatterns>
+			<pattern>java</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem name="Multi-line comment - /* */" dotall="Y">^[ \t]*/\*[^*].+?\*/</CountItem>
+			<CountItem name="JavaDoc - /** */" dotall="Y">^[ \t]*/\*\*.+?\*/</CountItem>
+			<CountItem name="Imports">^import .*;</CountItem>
+			<CountItem name="Annotations">^[ \t]*@\w+</CountItem>
+			<CountItem name="Class">^[ \t]*(public|private|static|final|abstract| )*class</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Java Properties">
+		<FilePatterns>
+			<pattern>properties</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comments">^#</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Java Web Start">
+		<FilePatterns>
+			<pattern>jnlp</pattern>
+		</FilePatterns>
+	</FileType>
+	<FileType type="Java Server Pages">
+		<FilePatterns>
+			<pattern>jsp</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="xml.comment"/>
+		</CountItems>
+	</FileType>
+	<FileType type="JavaScript">
+		<FilePatterns>
+			<pattern>js</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="xml.comment"/>
+		</CountItems>
+	</FileType>
+	<FileType type="LaTeX/TeX">
+		<FilePatterns>
+			<pattern>tex</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.percent"/>
+			<CountItem name="Comment - multiline" dotall="Y">\\begin\{comment\}.+?\\end\{comment\}</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Linux Kernel Config">
+		<FilePatterns>
+			<pattern>Kconfig</pattern>
+			<pattern>defconfig</pattern>
+		</FilePatterns>
+		<CountItems>
+		    <CountItem ref="comment.hash"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Linux Kernel Device Tree Source">
+	    <FilePatterns>
+		<pattern>dts</pattern>
+	    </FilePatterns>
+	    <CountItems>
+		<CountItem ref="comment.single"/>
+		<CountItem ref="comment.multi"/>
+	    </CountItems>
+	</FileType>
+	<FileType type="Lisp">
+		<FilePatterns>
+			<pattern>cl</pattern>
+			<pattern>el</pattern>
+			<pattern>jl</pattern>
+			<pattern>lsp</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment - ;">^[ \t]*;</CountItem>
+			<CountItem name="Comment - #| ... |#" dotall="Y">^[ \t]*#\|.*?\|#</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Lua">
+		<FilePattens>
+			<pattern>lua</pattern>
+		</FilePattens>
+		<CountItems>
+			<CountItem name="Single Comment --">^[ \t]*--[^\[]</CountItem>
+			<CountItem name="Multi-line comment" dotall="Y">^[ \t]*--\[\[.*?\]\]</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Modula3">
+		<FilePatterns>
+			<pattern>m3</pattern>
+			<pattern>mg</pattern>
+			<pattern>i3</pattern>
+			<pattern>ig</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.paren"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Objective-C">
+		<FilePatterns>
+			<pattern>m</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Perl">
+		<FilePatterns>
+			<pattern>perl</pattern>
+			<pattern>pl</pattern>
+			<pattern>pm</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.hash"/>
+		</CountItems>
+	</FileType>
+	<FileType type="PHP">
+		<FilePatterns>
+			<pattern>php</pattern>
+			<pattern>php3</pattern>
+			<pattern>php4</pattern>
+			<pattern>php5</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Prolog">
+		<FilePatterns>
+			<pattern>plg</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.percent"/>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Python">
+		<FilePatterns>
+			<pattern>py</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem name="Docstring - &quot;&quot;&quot;" dotall="Y">^\"{3}.*?\"{3}</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="RelaxNG Compact Syntax">
+		<FilePatterns>
+			<pattern>rnc</pattern>
+		</FilePatterns>
+	</FileType>
+	<FileType type="Ruby">
+		<FilePatterns>
+			<pattern>rb</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.hash"/>
+			<CountItem name="Embedded documentation - =begin =end" dotall="Y" ci="Y">^=begin.*?=end</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Scala">
+	    <FilePatterns>
+			<pattern>scala</pattern>
+	    </FilePatterns>
+	    <CountItems>
+			<CountItem ref="comment.single"/>
+			<CountItem ref="comment.multi"/>
+	    </CountItems>
+	</FileType>
+	<FileType type="SED">
+		<FilePatterns>
+			<pattern>sed</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.hash"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Shell script">
+		<FilePatterns>
+			<pattern>bash</pattern>
+			<pattern>csh</pattern>
+			<pattern>sh</pattern>
+			<pattern>zsh</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.hash"/>
+		</CountItems>
+	</FileType>
+	<FileType type="SQL">
+		<FilePatterns>
+			<pattern>sql</pattern>
+			<pattern>ddl</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Single line comment - --">^--</CountItem>
+			<CountItem ref="comment.multi"/>
+		</CountItems>
+	</FileType>
+	<FileType type="TCL/TK">
+		<FilePatterns>
+			<pattern>tcl</pattern>
+			<pattern>tk</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.hash"/>
+		</CountItems>
+	</FileType>
+	<FileType type="Text">
+		<FilePatterns>
+			<pattern>txt</pattern>
+			<pattern>readme</pattern>
+			<pattern>credits</pattern>
+			<pattern>install</pattern>
+			<pattern>changelog</pattern>
+			<pattern>todo</pattern>
+			<pattern>licence</pattern>
+			<pattern>license</pattern>
+			<pattern>releasenotes</pattern>
+			<pattern>release-notes</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Repeated word">\b(\p{L}+)[\s.]*\1</CountItem>
+			<CountItem name="Missing capital">\.\s*\p{Ll}</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Visual Basic / BASIC">
+		<FilePatterns>
+			<pattern>bas</pattern>
+			<pattern>vb</pattern>
+			<pattern>vbs</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment - '">^'</CountItem>
+			<CountItem name="Remark - REM" ci="Y">^REM</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="Windows Batch">
+		<FilePatterns>
+			<pattern>bat</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem name="Comment - REM" ci="Y">^REM</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="XML">
+		<FilePatterns>
+			<pattern>dita</pattern>
+			<pattern>ditamap</pattern>
+			<pattern>fo</pattern>
+			<pattern>form</pattern>
+			<pattern>nvdl</pattern>
+			<pattern>svg</pattern>
+			<pattern>xhtml</pattern>
+			<pattern>xml</pattern>
+			<pattern>wsdl</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="xml.comment"/>
+			<CountItem ref="xml.prolog"/>
+			<CountItem name="CDATA">&lt;!\[CDATA\[\w*\]\]&gt;</CountItem>
+			<CountItem name="DocType">&lt;!DOCTYPE</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="XML - DTD">
+		<FilePatterns>
+			<pattern>dtd</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="xml.prolog"/>
+			<CountItem name="Element">&lt;!ELEMENT</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="XML - RelaxNG">
+		<FilePatterns>
+			<pattern>rng</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="xml.comment"/>
+			<CountItem ref="xml.prolog"/>
+			<CountItem name="Element">&lt;element</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="XML Schema">
+		<FilePatterns>
+			<pattern>xsd</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="xml.comment"/>
+			<CountItem ref="xml.prolog"/>
+			<CountItem name="CDATA">&lt;!\[CDATA\[\w*\]\]&gt;</CountItem>
+			<CountItem name="ELEMENT">&lt;[a-zA-Z]+!ELEMENT</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="XML - Schematron">
+		<FilePatterns>
+			<pattern>sch</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="xml.comment"/>
+			<CountItem ref="xml.prolog"/>
+			<CountItem name="Pattern - &lt;sch:pattern">&lt;sch:pattern</CountItem>
+			<CountItem name="Rule - &lt;sch:rule">&lt;sch:rule</CountItem>
+			<CountItem name="Assert - &lt;sch:assert">&lt;sch:assert</CountItem>
+			<CountItem name="Diagnostic - &lt;sch:diagnostic">&lt;sch:diagnostic</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="XML - XSLT">
+		<FilePatterns>
+			<pattern>xsl</pattern>
+			<pattern>xslt</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="xml.comment"/>
+			<CountItem ref="xml.prolog"/>
+			<CountItem name="CDATA">&lt;!\[CDATA\[\w*\]\]&gt;</CountItem>
+			<CountItem name="Template">&lt;[a-zA-Z]+:template</CountItem>
+		</CountItems>
+	</FileType>
+	<FileType type="XQuery">
+		<FilePatterns>
+			<pattern>xquery</pattern>
+		</FilePatterns>
+	</FileType>
+	<FileType type="Yacc / Bison">
+		<FilePatterns>
+			<pattern>y</pattern>
+		</FilePatterns>
+		<CountItems>
+			<CountItem ref="comment.multi"/>
+			<CountItem ref="comment.single"/>
+		</CountItems>
+	</FileType>
+</FileTypes>
